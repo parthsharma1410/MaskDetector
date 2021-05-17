@@ -1,0 +1,56 @@
+.heading {
+  font-family: "Poppins", sans-serif;
+  padding-left: 32%;
+  padding-top: 3%;
+}
+
+.heading1 {
+  font-family: "Zen Dots", cursive;
+  padding-left: 36%;
+  padding-top: 5%;
+  color: rgb(234, 67, 53);
+  font-size: 3rem;
+}
+
+.image {
+  margin-left: 26%;
+  margin-bottom: 30px;
+}
+
+.heading2 {
+  color: rgb(15, 157, 88);
+  font-family: "Zen Dots", cursive;
+  padding-left: 35%;
+  padding-top: 5%;
+  font-size: 3rem;
+}
+
+.btnstart {
+  border-style: none;
+  padding: 1%;
+  background-color: rgb(130, 89, 163);
+  color: aliceblue;
+  margin-left: 46%;
+  border-radius: 20px;
+}
+
+#webcam-container {
+  margin-left: 35%;
+  border-color: rgb(130, 89, 163);
+}
+
+#label-container {
+  margin-left: 48%;
+}
+
+#no-mask {
+  visibility: hidden;
+}
+
+#mask {
+  visibility: hidden;
+}
+
+p {
+  font-size: 1.1rem;
+}
