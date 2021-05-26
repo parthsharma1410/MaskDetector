@@ -8,13 +8,11 @@ import sys  # System
 faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 # Open Frontal Camera ( Live Web Camera )
-#print("Test Print 1")
 video_camera = cv2.VideoCapture(0)
 
 # Live Streaming Face Detection
 while True:
     # Face Frame
-    #print("Test print 2")
     ret, frame = video_camera.read()
     # Face Frame For Detected Face
     grayfaces = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -28,7 +26,7 @@ while True:
         # resize = (600, 600),
         flags=cv2.CASCADE_SCALE_IMAGE
     )
-    #print("Test print 3")
+
 
     print(faces)
     print(type(faces))

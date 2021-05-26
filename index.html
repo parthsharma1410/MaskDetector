@@ -6,40 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Zen+Dots&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <title>Document</title>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <title>Mask Detector</title>
 </head>
 <body>
+    <!-- navbar -->
     <nav class="navbar navbar-light bg-light">
         <div class="container">
           <a class="navbar-brand" href="#">
-            <img src="/img/mask.svg" alt="Mask Detector" width="40" height="30">
-            <img src="/img/mask detector.svg" alt="" width="100" height="50">
+            <img src="/img/mask detector.svg" alt="Mask Detector" width="150" height="50">
           </a>
         </div>
       </nav>
-    <h3 class="heading">PLEASE LOOK STRAIGHT INTO THE CAMERA</h3> <br>
-<button class='btnstart' type="button" onclick="init()">Start Detection</button> <br> <br>
-<div id="webcam-container"></div>
-<div id="label-container"></div>
-<div id='no-mask'>
-    <h3 class="heading1">ENTRY DENIED</h3> <br>
-    <p class="heading">Please cover your nose and mouth adequately with a mask and try again </p> <br><br>
-    <img class="image" src="./img/no-mask.svg" alt="NO-MASK" width="800" height="200">
-</div>
-<div id='mask'>
-    <h3 class="heading2">YOU MAY ENTER!</h3> <br>
-    <p class="heading">Thank you for being a responsible citizen & following Covid-19 guidelines!</p> <br><br>
-    <img class='image' src="./img/mask-on.svg" alt="MASK-ON" width="800" height="200">
-</div>
+      <!-- container div is flexbox -->
+      <div class="flexbox">
+          <div>
+                <h3 class="heading">PLEASE LOOK STRAIGHT INTO THE CAMERA</h3> <br>
+                <button class='btnstart' type="button" onclick="init()">Start Detection</button> <br> <br>
+                <div id="webcam-container"></div>
+                <div id="label-container"></div>
+          </div>
+          <div>
+              <div id='welcome' class="animate__animated animate__fadeIn">
+                <h3 class="heading3">WELCOME TO OUR STORE</h3> <br>
+                <p class="para">Kindly face the camera and co-operate with us while mask is being detected.</p> <br><br>
+                <img class="image" src="./img/welcome.svg" alt="NO-MASK" width="700" height="200">
+              </div>
+            <div id='no-mask' class="animate__animated animate__fadeIn">
+                <h3 class="heading1">ENTRY DENIED</h3> <br>
+                <p class="para">Please cover your nose and mouth adequately with a mask and try again </p> <br><br>
+                <img class="image" src="./img/no-mask.svg" alt="NO-MASK" width="700" height="200">
+            </div>
+            <div id='mask' class="animate__animated animate__fadeIn">
+                <h3 class="heading2">YOU MAY ENTER!</h3> <br>
+                <p class="para">Thank you for being a responsible citizen & following Covid-19 guidelines!</p> <br><br>
+                <img class='image' src="./img/mask-on.svg" alt="MASK-ON" width="700" height="200">
+            </div>
+          </div>
+      </div>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 <script type="text/javascript">
     // More API functions here:
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
-    // the link to your model provided by Teachable Machine export panel
+    // the link to our mask detection model
     const URL = "https://teachablemachine.withgoogle.com/models/xUl7rnoZP/";
 
     let model, webcam, labelContainer, maxPredictions;
@@ -58,7 +72,7 @@
 
         // Convenience function to setup a webcam
         const flip = true; // whether to flip the webcam
-        webcam = new tmImage.Webcam(500, 400, flip); // width, height, flip
+        webcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
         await webcam.play();
         window.requestAnimationFrame(loop);
@@ -76,6 +90,19 @@
         await predict();
         window.requestAnimationFrame(loop);
     }
+    //Using SMTP to automate a mail
+    function sendEmail() {
+      Email.send({
+        Host: "smtp.gmail.com",
+        Username: "hciprojectmaskdetector@gmail.com",
+        Password: "test123@456",
+        To: 'parth.sharma2019a@vitstudent.ac.in',
+        From: "hciprojectmaskdetector@gmail.com",
+        Subject: "Person without mask tried to enter the store!",
+        Body: "A person, not wearing mask, tried to enter your store. Kindly make sure they wear the mask before entering the store.",
+      })
+        
+    }
 
     // run the webcam image through the image model
     async function predict() {
@@ -90,15 +117,20 @@
         let flag = 0;
 
         if(prediction[i].className === 'NO MASK' && prediction[i].probability.toFixed(2) > 0.5 && flag == 0){
-            document.getElementById("no-mask").style.visibility="visible";
+            document.getElementById("welcome").style.visibility="hidden";
+            document.getElementById("welcome").style.height="0px";
             document.getElementById("mask").style.height="0px";
+            document.getElementById("no-mask").style.visibility="visible";
             flag = 1;
+            sendEmail();
             break
         } 
 
         if(prediction[i].className === 'MASK' && prediction[i].probability.toFixed(2) > 0.5 && flag == 0){
-            document.getElementById("mask").style.visibility="visible";
+            document.getElementById("welcome").style.visibility="hidden";
+            document.getElementById("welcome").style.height="0px";
             document.getElementById("no-mask").style.height="0px";
+            document.getElementById("mask").style.visibility="visible";
             break
         }
     }
