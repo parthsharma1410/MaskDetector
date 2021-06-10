@@ -5,4 +5,7 @@ Frontend is implemented using HTML,CSS and Vanilla Javascript.
 
 
 # UI Screenshots
-![pic-2](https://github.com/parthsharma1410/MaskDetector/blob/main/ui-screenshots/welcome.PNG?raw=true)
+![welcome](https://github.com/parthsharma1410/MaskDetector/blob/main/ui-screenshots/welcome.PNG?raw=true)
+![no-mask](https://github.com/parthsharma1410/MaskDetector/blob/main/ui-screenshots/no-mask.PNG?raw=true)
+![mail](https://github.com/parthsharma1410/MaskDetector/blob/main/ui-screenshots/mail.PNG?raw=true)
+![mask](https://github.com/parthsharma1410/MaskDetector/blob/main/ui-screenshots/mask.PNG?raw=true)
